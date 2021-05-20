@@ -11,11 +11,12 @@ import PropTypes from "prop-types";
 import { fetchPosts } from "../actions/posts";
 import { Home, Navbar, Page404, Login, Signup, Settings } from "./";
 import jwtDecode from "jwt-decode";
-// import * as jwtDecode from "jwt-decode";
 import { authenticateUser } from "../actions/auth";
+import { getAuthTokenFromLocalStorage } from "../helpers/utils";
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
+
   return (
     <Route
       path={path}
@@ -36,11 +37,12 @@ const PrivateRoute = (privateRouteProps) => {
     />
   );
 };
+
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
 
-    const token = localStorage.getItem("token");
+    const token = getAuthTokenFromLocalStorage();
 
     if (token) {
       const user = jwtDecode(token);
