@@ -1,19 +1,20 @@
-import { UPDATE_POSTS } from './actionType';
+import { UPDATE_POSTS } from './actionTypes';
+import { APIUrls } from '../helpers/urls';
+
 export function fetchPosts() {
   return (dispatch) => {
-    const url =
-      'http://codeial.codingninjas.com:8000/api/v2/posts?page=1&limit=5';
+    const url = APIUrls.fetchPosts();
     fetch(url)
       .then((response) => {
-        // console.log('Response', response);
         return response.json();
       })
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         dispatch(updatePosts(data.data.posts));
       });
   };
 }
+
 export function updatePosts(posts) {
   return {
     type: UPDATE_POSTS,
